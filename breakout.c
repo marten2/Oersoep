@@ -69,7 +69,7 @@ bool decompose_time(int counter, int index, double random);
 void decompose(BALL ball[], int i);
 int getFreeSpot(BALL ballen[]);
 void initDataStructure();
-BALL DeepCopyBall(BALL blueprint);
+BALL DeepCopyBall(BALL input, BALL blueprint);
 
 
 int hashfunction(char type)
@@ -112,11 +112,11 @@ int main(void)
     			int index = hashfunction(ballen[i].type);
     			ballcount++;
 				BALL* ball1 = &ballen[i];
-				if (!hashtable[index].decompinfo.possible)
+				if (hashtable[index].decompinfo.possible)
 				{
 					ballen[i].counter++;
 				}
-				if (decompose_time(ballen[i].counter, index, drand48()) && !hashtable[index].decompinfo.possible)
+				if (decompose_time(ballen[i].counter, index, drand48()) && hashtable[index].decompinfo.possible)
 				{
 					decompose(ballen, i);
 				}
@@ -195,7 +195,7 @@ void initDataStructure()
 		hashtable[i].blueprint = new_blueprint;
 	}
 	
-	hashtable[0].decompinfo.possible = true;
+	hashtable[0].decompinfo.possible = false;
 	hashtable[1].decompinfo.possible = true;
 	hashtable[1].decompinfo.time = 80;
 	hashtable[1].decompinfo.type1 = 'A';
@@ -211,9 +211,9 @@ void initBall(GWindow window, BALL ballen[], int T)
 	{
 		char type = 'A';
 		int index = hashfunction(type);
-		
+		ballen[i].ball = newGOval(0, 0, RADIUS * 2, RADIUS * 2);
 		// make deepcopy from blueprint to balls 
-		ballen[i] = DeepCopyBall(*hashtable[index].blueprint);
+		ballen[i] = DeepCopyBall(ballen[i], *hashtable[index].blueprint);
 		printf("Colour = %f\n", getX(ballen[i].ball));
 		
 		// set ballx compensate if ball is out of the screen
@@ -396,15 +396,13 @@ int getFreeSpot(BALL ballen[])
 	}
 	return 0;
 }
-BALL DeepCopyBall(BALL blueprint)
+BALL DeepCopyBall(BALL input, BALL blueprint)
 {
-	BALL output;
-	output.ball = newGOval(0, 0, 2 * RADIUS, 2 * RADIUS);
-	setColor(output.ball, blueprint.color);
-	setFilled(output.ball, true);
-	output.mass = blueprint.mass;
-	output.counter = blueprint.counter;
-	output.type = blueprint.type;
-	output.exists = blueprint.exists;
-	return output;	
+	setColor(input.ball, blueprint.color);
+	setFilled(input.ball, true);
+	input.mass = blueprint.mass;
+	input.counter = blueprint.counter;
+	input.type = blueprint.type;
+	input.exists = blueprint.exists;
+	return input;	
 }
