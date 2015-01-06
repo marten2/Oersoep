@@ -32,6 +32,7 @@ typedef struct
 	int counter;
 	char type;
 	bool exists;
+	string color;
 }BALL;
 
 typedef struct node
@@ -49,7 +50,8 @@ void react(BALL* ball1, BALL* ball2, int reaction_type);
 bool decompose_time(int counter, char type, double random);
 void decompose(BALL ball[], int i);
 int getFreeSpot(BALL ballen[]);
-void initDataStructure(node* hastable);
+void initDataStructure();
+BALL DeepCopyBall(BALL blueprint);
 
 
 int hashfunction(char type)
@@ -58,10 +60,11 @@ int hashfunction(char type)
 }
 GWindow window;
 int T;
-node* hastable;
+node hashtable[10];
 int main(void)
 {
-	initDataStructure(hastable);
+	initDataStructure();
+	
 	// get temperature
 	printf("Temp:");
  	int* temp = malloc(sizeof(int));
@@ -156,26 +159,22 @@ int main(void)
 
 /**
  * Builds a data structure with all information about the system
- * in the form of a hastable.
+ * in the form of a hashtable.
  */
-void initDataStructure(node* hastable)
+void initDataStructure()
 {
 	int masses[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 	char* colors[10] = {"BLUE", "RED", "CYAN", "ORANGE", "YELLOW", "GRAY", "PINK", "DARK_GRAY", "LIGHT_GRAY", "BLACK"};
-	hastable = calloc(10, sizeof(node));
-	node* first = hastable;
+	
 	for(int i = 0; i < 10; i++)
 	{
-		BALL* new_blueprint = malloc(sizeof(node));
-		new_blueprint->ball = newGOval(0, 0, 2 * RADIUS, 2 * RADIUS);
-		setColor(new_blueprint->ball, colors[i]);
-		setFilled(new_blueprint->ball, true); 
+		
+		BALL* new_blueprint = malloc(sizeof(BALL));
+		new_blueprint->color = colors[i];
 		new_blueprint->mass = masses[i];
 		new_blueprint->type = 'A' + i;
 		new_blueprint->exists = true;
-		first->blueprint = new_blueprint;
-		
-		first++;
+		hashtable[i].blueprint = new_blueprint;
 	}
 }
 /**
@@ -188,7 +187,11 @@ void initBall(GWindow window, BALL ballen[], int T)
 	{
 		char type = 'A';
 		int index = hashfunction(type);
-		ballen[i] = *hastable[index].blueprint;
+		
+		// make deepcopy from blueprint to balls 
+		ballen[i] = DeepCopyBall(*hashtable[index].blueprint);
+		printf("Colour = %f\n", getX(ballen[i].ball));
+		
 		// set ballx compensate if ball is out of the screen
 		double ballx = WIDTH * drand48();
 		if(ballx >= WIDTH - 2 * RADIUS)
@@ -204,7 +207,6 @@ void initBall(GWindow window, BALL ballen[], int T)
 		}
 		
 		// place balls and initialise speed
-/*		ballen[i].ball = newGOval(ballx, bally, 2 * RADIUS, 2 * RADIUS);*/
 		ballen[i].vx = drand48() * T + 1;
 		if(drand48() <= 0.5)
 		{
@@ -216,11 +218,6 @@ void initBall(GWindow window, BALL ballen[], int T)
 			ballen[i].vy = -ballen[i].vy;
 		}
 		addAt(window, ballen[i].ball, ballx, bally);
-/*		setColor(ballen[i].ball, "BLUE");*/
-/*		setFilled(ballen[i].ball, true);*/
-/*		ballen[i].mass = 1;*/
-/*		ballen[i].type = 'A'; */
-/*		ballen[i].exists = true;*/
 	}
 }
 
@@ -339,7 +336,7 @@ void decompose(BALL ballen[], int i)
 	double impuls_y_in = ballen[i].vy * ballen[i].mass;
 	
 	ballen[i].type = 'A';
-	ballen[j].type = 'B';
+	ballen[j].type = 'A';
 	ballen[i].mass = 1;
 	ballen[i].vx = drand48() * T + 1;
 	ballen[i].vy = drand48() * T + 1;
@@ -364,4 +361,16 @@ int getFreeSpot(BALL ballen[])
 		}
 	}
 	return 0;
+}
+BALL DeepCopyBall(BALL blueprint)
+{
+	BALL output;
+	output.ball = newGOval(0, 0, 2 * RADIUS, 2 * RADIUS);
+	setColor(output.ball, blueprint.color);
+	setFilled(output.ball, true);
+	output.mass = blueprint.mass;
+	output.counter = blueprint.counter;
+	output.type = blueprint.type;
+	output.exists = blueprint.exists;
+	return output;	
 }
