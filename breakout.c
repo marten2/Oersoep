@@ -38,7 +38,6 @@ typedef struct
 typedef struct node
 {
 	BALL* blueprint;
-
 }node;
 
 // prototypes
