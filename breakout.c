@@ -148,8 +148,8 @@ int main(void)
 			}
 		printf("count = %i\n", ballcount); 
 		}
-/*		printf("balls: %i\n", ballcount);*/
-/*		ballcount = 0;*/
+		printf("balls: %i\n", ballcount);
+		ballcount = 0;
     	pause(10);
     }
 
