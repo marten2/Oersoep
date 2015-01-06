@@ -384,7 +384,7 @@ void decompose(BALL ballen[], int i)
 	double balliX = getX(ballen[i]);
 	double balliY = getY(ballen[i]);
 	
-	setLocation(ballen[j].ball, balliX, balliY);
+	setLocation(ballen[j].ball, balliX+2.3*RADIUS, balliY);
 	
 	setVisible(ballen[j].ball, true);
 	ballen[j].exists = true;
