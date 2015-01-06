@@ -332,6 +332,7 @@ void react(BALL* ball1, BALL* ball2, int reaction_type)
 // check if the ball should decompose
 bool decompose_time(int counter, char type, double rand)
 {
+	
 	// get chance on decomposition 
 	double chance = counter * rand;
 	
@@ -351,6 +352,7 @@ void decompose(BALL ballen[], int i)
 	double tempVx = ballen[i].vx;
 	double tempVy = ballen[i].vy;
 	int oldMass = ballen[i].mass;
+	int oldType = ballen[i].type;
 	
 	double impuls_x_in = ballen[i].vx * ballen[i].mass;
 	double impuls_y_in = ballen[i].vy * ballen[i].mass;
