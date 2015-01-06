@@ -194,7 +194,26 @@ void initDataStructure()
 		new_blueprint->exists = true;
 		hashtable[i].blueprint = new_blueprint;
 	}
-	
+	for(int i = 0; i < 10; i++)
+	{
+		for(int ja = 0; j < 10; j++)
+		{
+			if (i == 0)
+			{
+				hashtable[i].reactions[j].react = true;
+				hashtable[i].reactions[j].Eact = 1;
+				hashtable[i].reactions[j].product = i + j + 'A';
+				hashtable[i].reactions[j].chanse = 0.35;
+			}
+			else if (j == 0)
+			{
+				hashtable[i].reactions[j].react = true;
+				hashtable[i].reactions[j].Eact = 1;
+				hashtable[i].reactions[j].product = i + j + 'A';
+				hashtable[i].reactions[j].chanse = 0.35;
+			}
+		}
+	}
 	hashtable[0].decompinfo.possible = false;
 	hashtable[1].decompinfo.possible = true;
 	hashtable[1].decompinfo.time = 80;
