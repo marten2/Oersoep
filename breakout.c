@@ -36,9 +36,25 @@ typedef struct
 	string color;
 }BALL;
 
+typedef struct reaction
+{
+	bool react;
+	char product;
+	double Eact;
+	double chance;	
+}reaction;
+
+typedef struct decomp
+{
+	char type1;
+	char type2;
+}decomp;
+
 typedef struct node
 {
 	BALL* blueprint;
+	reaction reactions[10];
+	decomp;
 }node;
 
 // prototypes
@@ -168,7 +184,6 @@ void initDataStructure()
 	
 	for(int i = 0; i < 10; i++)
 	{
-		
 		BALL* new_blueprint = malloc(sizeof(BALL));
 		new_blueprint->color = colors[i];
 		new_blueprint->mass = masses[i];
