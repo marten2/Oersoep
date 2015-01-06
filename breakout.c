@@ -46,6 +46,7 @@ typedef struct reaction
 
 typedef struct decomp
 {
+	int time;
 	char type1;
 	char type2;
 }decomp;
@@ -54,7 +55,7 @@ typedef struct node
 {
 	BALL* blueprint;
 	reaction reactions[10];
-	decomp;
+	decomp decompinfo;
 }node;
 
 // prototypes
@@ -191,6 +192,10 @@ void initDataStructure()
 		new_blueprint->exists = true;
 		hashtable[i].blueprint = new_blueprint;
 	}
+	
+	hashtable[1].decompinfo.time = 80;
+	hashtable[1].decompinfo.type1 = 'A';
+	hashtable[1].decompinfo.type2 = 'A';
 }
 /**
  * Instantiates ball in center of window.  Returns ball.
