@@ -8,6 +8,7 @@
 #include <time.h>
 #include <math.h>
 #include <cs50.h>
+#include <math.h>
 
 // Stanford Portable Library
 #include "gevents.h"
@@ -19,10 +20,10 @@
 #define WIDTH 1000
 
 // radius of ball in pixels
-#define RADIUS 4
+#define RADIUS 10
 
 // amount of balls
-#define BALLS 50
+#define BALLS 15
 typedef struct
 {
 	GOval ball;
@@ -146,7 +147,6 @@ int main(void)
 				    }
 				}
 			}
-		printf("count = %i\n", ballcount); 
 		}
 		printf("balls: %i\n", ballcount);
 		ballcount = 0;
@@ -332,17 +332,24 @@ void decompose(BALL ballen[], int i)
 	srand48(time(NULL));
 	// decompose Ball B into A
 	int j = getFreeSpot(ballen);
+	
+	double tempVx = ballen[i].vx;
+	double tempVy = ballen[i].vy;
+	int oldMass = ballen[i].mass;
+	
 	double impuls_x_in = ballen[i].vx * ballen[i].mass;
 	double impuls_y_in = ballen[i].vy * ballen[i].mass;
+	double Etot = 0.5 * oldMass * (tempVx*tempVx + tempVy*tempVy);
 	
 	ballen[i].type = 'A';
 	ballen[j].type = 'A';
 	ballen[i].mass = 1;
-	ballen[i].vx = drand48() * T + 1;
-	ballen[i].vy = drand48() * T + 1;
+	ballen[i].vx = drand48() * tempVx;
+	ballen[i].vy = sqrt((Etot/ballen[i].mass) - ballen[i].vx * ballen[i].vx);
+	// TODO uit de datastructure halen
 	ballen[j].mass = 1;
-	ballen[j].vx = impuls_x_in - ballen[i].vx;
-	ballen[j].vy = impuls_y_in - ballen[j].vy;
+	ballen[j].vx = (tempVx*oldMass - ballen[i].vx*ballen[i].mass)/ballen[j].mass + 1;
+	ballen[j].vy = (tempVy*oldMass - ballen[i].vy*ballen[i].mass)/ballen[j].mass;
 	
 	setColor(ballen[i].ball, "BLUE");	
 	setColor(ballen[j].ball, "BLUE");
