@@ -109,7 +109,7 @@ int main(void)
     	{
     		if (ballen[i].exists == true)
     		{
-    			int index = hashfunction(type);
+    			int index = hashfunction(ballen[i].type);
     			ballcount++;
 				BALL* ball1 = &ballen[i];
 				if (!hashtable[index].decompinfo.possible)
