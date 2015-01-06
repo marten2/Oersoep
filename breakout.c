@@ -64,7 +64,7 @@ void collision(BALL* ball1, BALL* ball2, double rand);
 bool Eact(BALL* ball1, BALL* ball2, int i); 
 int typereaction(BALL* ball1, BALL* ball2);
 void react(BALL* ball1, BALL* ball2, int reaction_type);
-bool decompose_time(int counter, char type, double random);
+bool decompose_time(int counter, int index, double random);
 void decompose(BALL ball[], int i);
 int getFreeSpot(BALL ballen[]);
 void initDataStructure();
@@ -335,14 +335,15 @@ void react(BALL* ball1, BALL* ball2, int reaction_type)
 	}
 }
 // check if the ball should decompose
-bool decompose_time(int counter, char type, double rand)
+bool decompose_time(int counter, int index, double rand)
 {
+	int time = hashtable[index].decompinfo.time;
 	
 	// get chance on decomposition 
 	double chance = counter * rand;
 	
 	// decompose depend on type and chance
-	if (type == 'B' && chance > 80) return true;
+	if (hashtable[index].decompinfo.possible && chance > time) return true;
 	
 	// or not
 	return false;
