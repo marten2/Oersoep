@@ -46,6 +46,7 @@ typedef struct reaction
 
 typedef struct decomp
 {
+	bool possible;
 	int time;
 	char type1;
 	char type2;
@@ -108,13 +109,14 @@ int main(void)
     	{
     		if (ballen[i].exists == true)
     		{
+    			int index = hashfunction(type);
     			ballcount++;
 				BALL* ball1 = &ballen[i];
-				if (ballen[i].type != 'A')
+				if (!hashtable[index].decompinfo.possible)
 				{
 					ballen[i].counter++;
 				}
-				if (decompose_time(ballen[i].counter, ballen[i].type, drand48()))
+				if (decompose_time(ballen[i].counter, index, drand48()) && !hashtable[index].decompinfo.possible)
 				{
 					decompose(ballen, i);
 				}
@@ -193,6 +195,8 @@ void initDataStructure()
 		hashtable[i].blueprint = new_blueprint;
 	}
 	
+	hashtable[0].decompinfo.possible = true;
+	hashtable[1].decompinfo.possible = true;
 	hashtable[1].decompinfo.time = 80;
 	hashtable[1].decompinfo.type1 = 'A';
 	hashtable[1].decompinfo.type2 = 'A';
