@@ -20,10 +20,10 @@
 #define WIDTH 1000
 
 // radius of ball in pixels
-#define RADIUS 10
+#define RADIUS 5
 
 // amount of balls
-#define BALLS 15
+#define BALLS 100
 typedef struct
 {
 	GOval ball;
@@ -196,21 +196,21 @@ void initDataStructure()
 	}
 	for(int i = 0; i < 10; i++)
 	{
-		for(int ja = 0; j < 10; j++)
+		for(int j = 0; j < 10; j++)
 		{
 			if (i == 0)
 			{
 				hashtable[i].reactions[j].react = true;
 				hashtable[i].reactions[j].Eact = 1;
 				hashtable[i].reactions[j].product = i + j + 'A';
-				hashtable[i].reactions[j].chanse = 0.35;
+				hashtable[i].reactions[j].chance = 0.35;
 			}
 			else if (j == 0)
 			{
 				hashtable[i].reactions[j].react = true;
 				hashtable[i].reactions[j].Eact = 1;
 				hashtable[i].reactions[j].product = i + j + 'A';
-				hashtable[i].reactions[j].chanse = 0.35;
+				hashtable[i].reactions[j].chance = 0.35;
 			}
 		}
 	}
