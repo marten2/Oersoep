@@ -62,23 +62,24 @@ typedef struct node
 // prototypes
 void initBall(GWindow window, BALL ballen[], int T);
 void collision(BALL* ball1, BALL* ball2, double rand);
-bool Eact(BALL* ball1, BALL* ball2, int i); 
-int typereaction(BALL* ball1, BALL* ball2);
-void react(BALL* ball1, BALL* ball2, int reaction_type);
+bool Eact(BALL* ball1, BALL* ball2, int index, int index2); 
+void react(BALL* ball1, BALL* ball2, int index, int index2);
 bool decompose_time(int counter, int index, double random);
 void decompose(BALL ball[], int i);
 int getFreeSpot(BALL ballen[]);
 void initDataStructure();
 BALL DeepCopyBall(BALL input, BALL blueprint);
 
-
 int hashfunction(char type)
 {
 	return type - 'A';
 }
+
 GWindow window;
 int T;
 node hashtable[10];
+
+
 int main(void)
 {
 	initDataStructure();
@@ -198,18 +199,18 @@ void initDataStructure()
 	{
 		for(int j = 0; j < 10; j++)
 		{
-			if (i == 0)
+			if (i == 0 && j != 0)
 			{
 				hashtable[i].reactions[j].react = true;
 				hashtable[i].reactions[j].Eact = 1;
-				hashtable[i].reactions[j].product = i + j + 'A';
+				hashtable[i].reactions[j].product = i + j + 'A' + 1;
 				hashtable[i].reactions[j].chance = 0.35;
 			}
 			else if (j == 0)
 			{
 				hashtable[i].reactions[j].react = true;
 				hashtable[i].reactions[j].Eact = 1;
-				hashtable[i].reactions[j].product = i + j + 'A';
+				hashtable[i].reactions[j].product = i + j + 'A' + 1;
 				hashtable[i].reactions[j].chance = 0.35;
 			}
 		}
@@ -268,68 +269,59 @@ void initBall(GWindow window, BALL ballen[], int T)
 // descrybes what happens when two balls collide, react or bounce 
 void collision(BALL* ball1, BALL* ball2, double rand)
 {
-	// possible chance's on reaction dependend on reaction type
-	double chance[2] = {0, 0.35};
-	
-	// get reactiontype 
-	int reaction_type = typereaction(ball1, ball2);
-	
+	int index = hashfunction(ball1->type);
+	int index2 = hashfunction(ball2->type);
+		
 	// get if ther is enough energy
-	bool React = Eact(ball1, ball2, reaction_type);
-
-	if (React && rand < chance[reaction_type])
+	if (hashtable[index].reactions[index2].react)
 	{
-		// make reaction happen
-		react(ball1, ball2, reaction_type);
+		// check if there is enough energy
+		bool EnergyOk = Eact(ball1, ball2, index, index2);
+		
+		// react if all conditions are met
+		if (EnergyOk && rand < hashtable[index].reactions[index2].chance)
+		{
+			// make reaction happen
+			react(ball1, ball2, index, index2);
+			return;
+		}
+	}
+
+	// change ball velocities
+	if ((ball1->vx < 0 && ball2->vx > 0) || (ball2->vx < 0 && ball1->vx > 0))
+	{
+		ball1->vx *= -1;
+		ball2->vx *= -1;
 	}
 	else
-	{	// change ball velocities
-		if ((ball1->vx < 0 && ball2->vx > 0) || (ball2->vx < 0 && ball1->vx > 0))
-		{
-			ball1->vx *= -1;
-			ball2->vx *= -1;
-		}
-		else
-		{
-			double temp = ball1->vx;
-			ball1->vx = ball2->vx;
-			ball2->vx = temp;
-		}
-		if ((ball1->vy < 0 && ball2->vy > 0) || (ball2->vy < 0 && ball1->vy > 0))
-		{
-			ball1->vy *= -1;
-			ball2->vy *= -1;
-		}
-		
-		else
-		{
-			double temp = ball1->vy;
-			ball1->vy = ball2->vy;
-			ball2->vy = temp;
-		}
+	{
+		double temp = ball1->vx;
+		ball1->vx = ball2->vx;
+		ball2->vx = temp;
+	}
+	if ((ball1->vy < 0 && ball2->vy > 0) || (ball2->vy < 0 && ball1->vy > 0))
+	{
+		ball1->vy *= -1;
+		ball2->vy *= -1;
+	}
+
+	else
+	{
+		double temp = ball1->vy;
+		ball1->vy = ball2->vy;
+		ball2->vy = temp;
 	}	  
 }
 
-// check what type of reaction it is depend on the types of the balls
-int typereaction(BALL* ball1, BALL* ball2)
-{
-	if (ball1->type == 'A' && ball2->type == 'A')
-	{
-		return 1;
-	}
-
-	return 0;
-}
-
 // Check if there is enough energy to react 
-bool Eact(BALL* ball1, BALL* ball2, int i)
+bool Eact(BALL* ball1, BALL* ball2, int index, int index2)
 {
-	double Eact[2] = {0, 1};
+	double tempEact = hashtable[index].reactions[index2].Eact;
 	double E1in = 0.5 * ball1->mass * (ball1->vx*ball1->vx + ball1->vy*ball1->vy);
 	double E2in = 0.5 * ball2->mass * (ball2->vx*ball2->vx + ball2->vy*ball2->vy);
 	double Eout = 0.5 * (ball1->mass + ball2->mass) * ((ball1->vx + ball2->vx) * (ball1->vx + ball2->vx) + (ball1->vy + ball2->vy) * (ball1->vy + ball2->vy));
-	//printf("Ein1 : %f, Ein2: %f, Eout: %f\n", E1in, E2in, Eout);
-	if (E1in + E2in - Eout > Eact[i])
+	
+	if (E1in + E2in - Eout > tempEact)
 	{
 		return true;
 	}
@@ -337,25 +329,20 @@ bool Eact(BALL* ball1, BALL* ball2, int i)
 }
 
 // make reaction between to balls, dependend on the type of reaction
-void react(BALL* ball1, BALL* ball2, int reaction_type)
+void react(BALL* ball1, BALL* ball2, int index, int index2)
 {
-	// reaction betwee A and A
-	if (reaction_type == 1)
-	{
-		// make two B balls 
-		int temp = ball1->mass;
-		ball1->type = 'B';
-		ball1->counter = 0;
-		setColor(ball1->ball, "RED");
-		ball1->mass = ball1->mass + ball2->mass;
+ 
+	int oldMass = ball1->mass;
+	// getting index for constuction by looking up product type
+	int NewIndex = hashfunction(hashtable[index].reactions[index2].product);
+	printf("Type product = %c\n", hashtable[index].reactions[index2].product);
+	*ball1 = DeepCopyBall(*ball1, *hashtable[NewIndex].blueprint);
 		
-		ball1->vx = (ball1->vx * temp + ball2->vx * ball2->mass) / ball1->mass; 
-		ball1->vy = (ball1->vy * temp + ball2->vy * ball2->mass) / ball1->mass; 
-		
-		setColor(ball2->ball, "GREEN");
-		setVisible(ball2->ball, false);
-		ball2->exists = false;
-	}
+	ball1->vx = (ball1->vx * oldMass + ball2->vx * ball2->mass) / ball1->mass; 
+	ball1->vy = (ball1->vy * oldMass + ball2->vy * ball2->mass) / ball1->mass; 
+	
+	setVisible(ball2->ball, false);
+	ball2->exists = false;
 }
 // check if the ball should decompose
 bool decompose_time(int counter, int index, double rand)
