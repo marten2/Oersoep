@@ -168,7 +168,7 @@ int main(void)
 				}
 			}
 		}
-		printf("balls: %i\n", ballcount);
+/*		printf("balls: %i\n", ballcount);*/
 		ballcount = 0;
     	pause(10);
     }
@@ -195,9 +195,9 @@ void initDataStructure()
 		new_blueprint->exists = true;
 		hashtable[i].blueprint = new_blueprint;
 	}
-	for(int i = 0; i < 10; i++)
+	for(int i = 0; i < 9; i++)
 	{
-		for(int j = 0; j < 10; j++)
+		for(int j = 0; j < 9; j++)
 		{
 			if (i == 0 && j != 0)
 			{
@@ -212,6 +212,10 @@ void initDataStructure()
 				hashtable[i].reactions[j].Eact = 1;
 				hashtable[i].reactions[j].product = i + j + 'A' + 1;
 				hashtable[i].reactions[j].chance = 0.35;
+			}
+			else
+			{
+				hashtable[i].reactions[j].react = false;
 			}
 		}
 	}
@@ -335,7 +339,7 @@ void react(BALL* ball1, BALL* ball2, int index, int index2)
 	int oldMass = ball1->mass;
 	// getting index for constuction by looking up product type
 	int NewIndex = hashfunction(hashtable[index].reactions[index2].product);
-	printf("Type product = %c\n", hashtable[index].reactions[index2].product);
+/*	printf("Type product = %c\n", hashtable[index].reactions[index2].product);*/
 	*ball1 = DeepCopyBall(*ball1, *hashtable[NewIndex].blueprint);
 		
 	ball1->vx = (ball1->vx * oldMass + ball2->vx * ball2->mass) / ball1->mass; 
@@ -361,24 +365,34 @@ bool decompose_time(int counter, int index, double rand)
 // decompose the ball back to lower molecule form
 void decompose(BALL ballen[], int i)
 {
-	srand48(time(NULL));
-	// decompose Ball B into A
-	int j = getFreeSpot(ballen);
+	// get index for look up types products
+	int index = hashfunction(ballen[i].type);
 	
+	srand48(time(NULL));
+	
+	// get free spot to make ball and types of product balls
+	int j = getFreeSpot(ballen);
+/*	int ProductType1 = hashfunction(hashtable[index].decompinfo.type1); */
+/*	int ProductType2 = hashfunction(hashtable[index].decompinfo.type1);*/
+/*	*/
 	double tempVx = ballen[i].vx;
 	double tempVy = ballen[i].vy;
+	
 	int oldMass = ballen[i].mass;
-	int oldType = ballen[i].type;
 	
 	double impuls_x_in = ballen[i].vx * ballen[i].mass;
 	double impuls_y_in = ballen[i].vy * ballen[i].mass;
 	double Etot = 0.5 * oldMass * (tempVx*tempVx + tempVy*tempVy);
+	
+/*	ballen[i] = DeepCopyBall(ballen[i], *hashtable[ProductType1].blueprint);*/
+/*	ballen[j] = DeepCopyBall(ballen[i], *hashtable[ProductType2].blueprint);*/
 	
 	ballen[i].type = 'A';
 	ballen[j].type = 'A';
 	ballen[i].mass = 1;
 	ballen[i].vx = drand48() * tempVx;
 	ballen[i].vy = sqrt((Etot/ballen[i].mass) - ballen[i].vx * ballen[i].vx);
+	
 	// TODO uit de datastructure halen
 	ballen[j].mass = 1;
 	ballen[j].vx = (tempVx*oldMass - ballen[i].vx*ballen[i].mass)/ballen[j].mass + 1;
