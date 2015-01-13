@@ -100,7 +100,7 @@ void decompose(BALL ball[], int i);
 int getFreeSpot(BALL ballen[]);
 void initDataStructure();
 BALL DeepCopyBall(BALL input, BALL blueprint);
-void UpdateDataArray(int data[]);
+void updateDataArray(int data[]);
 void PrintDataArray();
 
 int hashfunction(char type)
@@ -448,7 +448,7 @@ BALL DeepCopyBall(BALL input, BALL blueprint)
 ////////////////////////////////////////////////////////////////////////////////
 // Datastructure for information print to and read out
 ///////////////////////////////////////////////////////////////////////////////
-void UpdateDataArray(int data[])
+void updateDataArray(int data[])
 {
 	for( int i = 0; i < 10; i++)
 	{
