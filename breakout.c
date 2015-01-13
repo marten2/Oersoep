@@ -1,4 +1,14 @@
+////////////////////////////////////////////////////////////////////////////////
+// Oersoep project
+//
+// Marten Folkertsma & Daniel Staal
+// Script for model environment
+////////////////////////////////////////////////////////////////////////////////
 
+
+////////////////////////////////////////////////////////////////////////////////
+// Libraries
+////////////////////////////////////////////////////////////////////////////////
 
 // standard libraries
 #define _XOPEN_SOURCE
@@ -24,6 +34,11 @@
 
 // amount of balls
 #define BALLS 100
+
+////////////////////////////////////////////////////////////////////////////////
+// Structs
+////////////////////////////////////////////////////////////////////////////////
+
 typedef struct
 {
 	GOval ball;
@@ -59,7 +74,10 @@ typedef struct node
 	decomp decompinfo;
 }node;
 
-// prototypes
+////////////////////////////////////////////////////////////////////////////////
+// Methods declarations and instance variables
+////////////////////////////////////////////////////////////////////////////////
+
 void initBall(GWindow window, BALL ballen[], int T);
 void collision(BALL* ball1, BALL* ball2, double rand);
 bool Eact(BALL* ball1, BALL* ball2, int index, int index2); 
@@ -78,6 +96,11 @@ int hashfunction(char type)
 GWindow window;
 int T;
 node hashtable[10];
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Methods
+////////////////////////////////////////////////////////////////////////////////
 
 
 int main(void)
@@ -177,54 +200,6 @@ int main(void)
     return 0;
 }
 
-/**
- * Builds a data structure with all information about the system
- * in the form of a hashtable.
- */
-void initDataStructure()
-{
-	int masses[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-	char* colors[10] = {"BLUE", "RED", "CYAN", "ORANGE", "YELLOW", "GRAY", "PINK", "DARK_GRAY", "LIGHT_GRAY", "BLACK"};
-	
-	for(int i = 0; i < 10; i++)
-	{
-		BALL* new_blueprint = malloc(sizeof(BALL));
-		new_blueprint->color = colors[i];
-		new_blueprint->mass = masses[i];
-		new_blueprint->type = 'A' + i;
-		new_blueprint->exists = true;
-		hashtable[i].blueprint = new_blueprint;
-	}
-	for(int i = 0; i < 9; i++)
-	{
-		for(int j = 0; j < 9; j++)
-		{
-			if (i == 0 && j != 0)
-			{
-				hashtable[i].reactions[j].react = true;
-				hashtable[i].reactions[j].Eact = 1;
-				hashtable[i].reactions[j].product = i + j + 'A' + 1;
-				hashtable[i].reactions[j].chance = 0.35;
-			}
-			else if (j == 0)
-			{
-				hashtable[i].reactions[j].react = true;
-				hashtable[i].reactions[j].Eact = 1;
-				hashtable[i].reactions[j].product = i + j + 'A' + 1;
-				hashtable[i].reactions[j].chance = 0.35;
-			}
-			else
-			{
-				hashtable[i].reactions[j].react = false;
-			}
-		}
-	}
-	hashtable[0].decompinfo.possible = false;
-	hashtable[1].decompinfo.possible = true;
-	hashtable[1].decompinfo.time = 80;
-	hashtable[1].decompinfo.type1 = 'A';
-	hashtable[1].decompinfo.type2 = 'A';
-}
 /**
  * Instantiates ball in center of window.  Returns ball.
  */
@@ -428,4 +403,58 @@ BALL DeepCopyBall(BALL input, BALL blueprint)
 	input.type = blueprint.type;
 	input.exists = blueprint.exists;
 	return input;	
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Datastructure and Database
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Builds a data structure with all information about the system
+ * in the form of a hashtable.
+ */
+void initDataStructure()
+{
+	int masses[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+	char* colors[10] = {"BLUE", "RED", "CYAN", "ORANGE", "YELLOW", "GRAY", "PINK", "DARK_GRAY", "LIGHT_GRAY", "BLACK"};
+	
+	for(int i = 0; i < 10; i++)
+	{
+		BALL* new_blueprint = malloc(sizeof(BALL));
+		new_blueprint->color = colors[i];
+		new_blueprint->mass = masses[i];
+		new_blueprint->type = 'A' + i;
+		new_blueprint->exists = true;
+		hashtable[i].blueprint = new_blueprint;
+	}
+	for(int i = 0; i < 9; i++)
+	{
+		for(int j = 0; j < 9; j++)
+		{
+			if (i == 0 && j != 0)
+			{
+				hashtable[i].reactions[j].react = true;
+				hashtable[i].reactions[j].Eact = 1;
+				hashtable[i].reactions[j].product = i + j + 'A' + 1;
+				hashtable[i].reactions[j].chance = 0.35;
+			}
+			else if (j == 0)
+			{
+				hashtable[i].reactions[j].react = true;
+				hashtable[i].reactions[j].Eact = 1;
+				hashtable[i].reactions[j].product = i + j + 'A' + 1;
+				hashtable[i].reactions[j].chance = 0.35;
+			}
+			else
+			{
+				hashtable[i].reactions[j].react = false;
+			}
+		}
+	}
+	hashtable[0].decompinfo.possible = false;
+	hashtable[1].decompinfo.possible = true;
+	hashtable[1].decompinfo.time = 80;
+	hashtable[1].decompinfo.type1 = 'A';
+	hashtable[1].decompinfo.type2 = 'A';
 }
