@@ -97,6 +97,7 @@ int getFreeSpot(BALL ballen[]);
 void initDataStructure();
 BALL DeepCopyBall(BALL input, BALL blueprint);
 void UpdateDataArray(int data[]);
+void PrintDataArray();
 
 int hashfunction(char type)
 {
@@ -438,14 +439,27 @@ BALL DeepCopyBall(BALL input, BALL blueprint)
 	input.exists = blueprint.exists;
 	return input;	
 }
-
+////////////////////////////////////////////////////////////////////////////////
+// Datastructure for information print to and read out
+///////////////////////////////////////////////////////////////////////////////
 void UpdateDataArray(int data[])
 {
 	for( int i = 0; i < 10; i++)
 	{
+		datablok* new_blok = malloc(sizeof(datablok));
+		new_blok->next = DataArray[i].next;
+		new_blok->amount = data[i];
+		DataArray[i].next = new_blok;
+	}
+}
+void PrintDataArray()
+{
+	for( int i = 0; i < 0; i++)
+	{
 		
 	}
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 // Datastructure and Database
 ////////////////////////////////////////////////////////////////////////////////
