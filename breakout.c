@@ -109,9 +109,10 @@ node hashtable[10];
 // Methods
 ////////////////////////////////////////////////////////////////////////////////
 
-
 int main(void)
 {
+	int particles[10] = {0,0,0,0,0,0,0,0,0,0};
+	
 	initDataStructure();
 	
 	// get temperature
@@ -141,6 +142,7 @@ int main(void)
     		if (ballen[i].exists == true)
     		{
     			int index = hashfunction(ballen[i].type);
+    			particles[index]++;
     			ballcount++;
 				BALL* ball1 = &ballen[i];
 				if (hashtable[index].decompinfo.possible)
@@ -201,6 +203,12 @@ int main(void)
 /*		printf("balls: %i\n", ballcount);*/
 		ballcount = 0;
     	pause(10);
+    	for(int i = 0; i<10;i++){
+    		printf("particles[%i] = %i\n", i, particles[i]);
+    	} 
+    	for(int j=0; j<10; j++){
+    		particles[j] = 0;
+    	}
     }
 
 	closeGWindow(window);
