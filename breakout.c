@@ -35,6 +35,9 @@
 // amount of balls
 #define BALLS 100
 
+// number of different particles
+#define PARTICLES 10
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structs
 ////////////////////////////////////////////////////////////////////////////////
@@ -112,7 +115,14 @@ node hashtable[10];
 
 int main(void)
 {
-	int particles[10] = {0,0,0,0,0,0,0,0,0,0};
+	
+	// keep track of number of particles
+	int particles[PARTICLES];
+	// initialize values to 0
+	for(int i = 0; i<PARTICLES; i++){
+		particles[i] = 0;
+	}
+	int iterationCounter = 0; 
 	
 	initDataStructure();
 	
@@ -143,7 +153,11 @@ int main(void)
     		if (ballen[i].exists == true)
     		{
     			int index = hashfunction(ballen[i].type);
+    			
+    			// count different kinds of particles present
     			particles[index]++;
+    			// count iterations
+    			
     			ballcount++;
 				BALL* ball1 = &ballen[i];
 				if (hashtable[index].decompinfo.possible)
@@ -204,10 +218,15 @@ int main(void)
 /*		printf("balls: %i\n", ballcount);*/
 		ballcount = 0;
     	pause(10);
-    	for(int i = 0; i<10;i++){
-    		printf("particles[%i] = %i\n", i, particles[i]);
-    	} 
-    	for(int j=0; j<10; j++){
+    	iterationCounter++;
+    	if (iterationCounter == 100){
+    		iterationCounter = 0;	
+			for (int i = 0; i<PARTICLES;i++){
+				printf("particles[%i] = %i\n", i, particles[i]);
+			}
+		}
+		// reset particle number 
+    	for (int j=0; j<PARTICLES; j++){
     		particles[j] = 0;
     	}
     }
@@ -438,7 +457,6 @@ void PrintDataArray()
 	for( int i = 0; i < 0; i++)
 	{
 		
-		while		
 	}
 }
 
