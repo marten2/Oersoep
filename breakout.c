@@ -238,7 +238,6 @@ void initBall(GWindow window, BALL ballen[], int T)
 		ballen[i].ball = newGOval(0, 0, RADIUS * 2, RADIUS * 2);
 		// make deepcopy from blueprint to balls 
 		ballen[i] = DeepCopyBall(ballen[i], *hashtable[index].blueprint);
-		printf("Colour = %f\n", getX(ballen[i].ball));
 		
 		// set ballx compensate if ball is out of the screen
 		double ballx = WIDTH * drand48();
@@ -339,7 +338,6 @@ void react(BALL* ball1, BALL* ball2, int index, int index2)
 	int oldMass = ball1->mass;
 	// getting index for constuction by looking up product type
 	int NewIndex = hashfunction(hashtable[index].reactions[index2].product);
-/*	printf("Type product = %c\n", hashtable[index].reactions[index2].product);*/
 	*ball1 = DeepCopyBall(*ball1, *hashtable[NewIndex].blueprint);
 		
 	ball1->vx = (ball1->vx * oldMass + ball2->vx * ball2->mass) / ball1->mass; 
