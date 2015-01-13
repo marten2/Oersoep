@@ -224,6 +224,7 @@ int main(void)
 			for (int i = 0; i<PARTICLES;i++){
 				printf("particles[%i] = %i\n", i, particles[i]);
 			}
+			updateDataArray(particles);
 		}
 		// reset particle number 
     	for (int j=0; j<PARTICLES; j++){
