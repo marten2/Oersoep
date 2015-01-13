@@ -74,6 +74,12 @@ typedef struct node
 	decomp decompinfo;
 }node;
 
+typedef struct datablok{
+
+	int amount;
+	struct datablok* next;
+}datablok;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Methods declarations and instance variables
 ////////////////////////////////////////////////////////////////////////////////
@@ -87,12 +93,13 @@ void decompose(BALL ball[], int i);
 int getFreeSpot(BALL ballen[]);
 void initDataStructure();
 BALL DeepCopyBall(BALL input, BALL blueprint);
+void UpdateDataArray(int data[]);
 
 int hashfunction(char type)
 {
 	return type - 'A';
 }
-
+datablok DataArray[10];
 GWindow window;
 int T;
 node hashtable[10];
@@ -405,7 +412,13 @@ BALL DeepCopyBall(BALL input, BALL blueprint)
 	return input;	
 }
 
-
+void UpdateDataArray(int data[])
+{
+	for( int i = 0; i < 10; i++)
+	{
+		
+	}
+}
 ////////////////////////////////////////////////////////////////////////////////
 // Datastructure and Database
 ////////////////////////////////////////////////////////////////////////////////
