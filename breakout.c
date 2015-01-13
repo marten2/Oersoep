@@ -355,7 +355,7 @@ bool decompose_time(int counter, int index, double rand)
 	
 	// get chance on decomposition 
 	double chance = counter * rand;
-	
+	 
 	// decompose depend on type and chance
 	if (hashtable[index].decompinfo.possible && chance > time) return true;
 	
