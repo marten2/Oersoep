@@ -447,10 +447,10 @@ BALL DeepCopyBall(BALL input, BALL blueprint)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Datastructure for information print to and read out
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 void updateDataArray(int data[])
 {
-	for( int i = 0; i < 10; i++)
+	for( int i = 0; i < PARTICLES; i++)
 	{
 		datablok* new_blok = malloc(sizeof(datablok));
 		new_blok->next = DataArray[i].next;
@@ -458,6 +458,7 @@ void updateDataArray(int data[])
 		DataArray[i].next = new_blok;
 	}
 }
+
 void PrintDataArray()
 {
 	for( int i = 0; i < 0; i++)
@@ -476,10 +477,10 @@ void PrintDataArray()
  */
 void initDataStructure()
 {
-	int masses[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-	char* colors[10] = {"BLUE", "RED", "CYAN", "ORANGE", "YELLOW", "GRAY", "PINK", "DARK_GRAY", "LIGHT_GRAY", "BLACK"};
+	int masses[PARTICLES] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+	char* colors[PARTICLES] = {"BLUE", "RED", "CYAN", "ORANGE", "YELLOW", "GRAY", "PINK", "DARK_GRAY", "LIGHT_GRAY", "BLACK"};
 	
-	for(int i = 0; i < 10; i++)
+	for(int i = 0; i < PARTICLES; i++)
 	{
 		BALL* new_blueprint = malloc(sizeof(BALL));
 		new_blueprint->color = colors[i];
@@ -488,9 +489,11 @@ void initDataStructure()
 		new_blueprint->exists = true;
 		hashtable[i].blueprint = new_blueprint;
 	}
-	for(int i = 0; i < 9; i++)
+	
+	
+	for(int i = 0; i < PARTICLES-1; i++)
 	{
-		for(int j = 0; j < 9; j++)
+		for(int j = 0; j < PARTICLES-1; j++)
 		{
 			if (i == 0 && j != 0)
 			{
