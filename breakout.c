@@ -107,7 +107,7 @@ int hashfunction(char type)
 {
 	return type - 'A';
 }
-datablok DataArray[10];
+datablok* DataArray[10];
 GWindow window;
 int T;
 node hashtable[10];
@@ -224,11 +224,10 @@ int main(void)
     	pause(10);
     	iterationCounter++;
     	if (iterationCounter == 100){
+    		printf("update\n");
     		iterationCounter = 0;	
-			for (int i = 0; i<PARTICLES;i++){
-				printf("particles[%i] = %i\n", i, particles[i]);
-			}
 			updateDataArray(particles);
+			PrintDataArray();
 		}
 		// reset particle number 
     	for (int j=0; j<PARTICLES; j++){
@@ -480,9 +479,10 @@ void updateDataArray(int data[])
 	for( int i = 0; i < PARTICLES; i++)
 	{
 		datablok* new_blok = malloc(sizeof(datablok));
-		new_blok->next = DataArray[i].next;
+		new_blok->next = DataArray[i];
 		new_blok->amount = data[i];
-		DataArray[i].next = new_blok;
+		DataArray[i] = new_blok;
+		printf("  %i  ", new_blok->amount);
 	}
 }
 
@@ -490,7 +490,14 @@ void PrintDataArray()
 {
 	for( int i = 0; i < 0; i++)
 	{
-		
+		datablok* temp = DataArray[i];
+		printf("Particle[%i] :", i);
+		while(temp != NULL)
+		{
+			printf("  %i  ", temp->amount);
+			temp = temp->next;
+		}
+		printf("\n");
 	}
 }
 
