@@ -358,8 +358,35 @@ void react(BALL* ball1, BALL* ball2, int index, int index2)
 	ball1->vx = (ball1->vx * oldMass + ball2->vx * ball2->mass) / ball1->mass; 
 	ball1->vy = (ball1->vy * oldMass + ball2->vy * ball2->mass) / ball1->mass; 
 	
-	setVisible(ball2->ball, false);
-	ball2->exists = false;
+	//setVisible(ball2->ball, false);
+	//ball2->exists = false;
+	*ball2 = DeepCopyBall(*ball2, *hashtable[0].blueprint);
+	// set ballx compensate if ball is out of the screen
+	double ballx = WIDTH * drand48();
+	if(ballx >= WIDTH - 2 * RADIUS)
+	{
+		ballx-= 2 * RADIUS;
+	}
+	
+	// set bally compensate if ball is out of the screen
+	double bally = HEIGHT * drand48();
+	if(bally >= WIDTH - 2 * RADIUS)
+	{
+		bally-= 2 * RADIUS;
+	}
+	
+	// place balls and initialise speed
+	ball2->vx = drand48() * T + 1;
+	if(drand48() <= 0.5)
+	{
+		ball2->vx = -ball2->vx;
+	}
+	ball2->vy = drand48() * T + 1;
+	if(drand48() <= 0.5)
+	{
+		ball2->vy = -ball2->vy;
+	}
+	addAt(window, ball2->ball, ballx, bally);
 }
 // check if the ball should decompose
 bool decompose_time(int counter, int index, double rand)
@@ -427,7 +454,7 @@ int getFreeSpot(BALL ballen[])
 {
 	for (int i = 0; i < BALLS; i++)
 	{
-		if (!ballen[i].exists)
+		if (ballen[i].type == 'A')
 		{
 			return i;
 		}
@@ -520,4 +547,10 @@ void initDataStructure()
 	hashtable[1].decompinfo.time = 80;
 	hashtable[1].decompinfo.type1 = 'A';
 	hashtable[1].decompinfo.type2 = 'A';
+	
+	// valt uiteen in 2 template deeltjes
+	hashtable[9].decompinfo.possible = true;
+	hashtable[9].decompinfo.time = 5;
+	hashtable[9].decompinfo.type1 = 'E';
+	hashtable[9].decompinfo.type1 = 'E';
 }
