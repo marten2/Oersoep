@@ -413,7 +413,7 @@ void decompose(BALL ballen[], int i)
 	int j = getFreeSpot(ballen);
 /*	int ProductType1 = hashfunction(hashtable[index].decompinfo.type1); */
 /*	int ProductType2 = hashfunction(hashtable[index].decompinfo.type1);*/
-/*	*/
+
 	double tempVx = ballen[i].vx;
 	double tempVy = ballen[i].vy;
 	
@@ -425,6 +425,8 @@ void decompose(BALL ballen[], int i)
 	
 /*	ballen[i] = DeepCopyBall(ballen[i], *hashtable[ProductType1].blueprint);*/
 /*	ballen[j] = DeepCopyBall(ballen[i], *hashtable[ProductType2].blueprint);*/
+
+	hashtable[0].decompinfo.possible = false;
 	
 	ballen[i].type = 'A';
 	ballen[j].type = 'A';
@@ -434,7 +436,7 @@ void decompose(BALL ballen[], int i)
 	
 	// TODO uit de datastructure halen
 	ballen[j].mass = 1;
-	ballen[j].vx = (tempVx*oldMass - ballen[i].vx*ballen[i].mass)/ballen[j].mass + 1;
+	ballen[j].vx = (tempVx*oldMass - ballen[i].vx*ballen[i].mass)/ballen[j].mass;
 	ballen[j].vy = (tempVy*oldMass - ballen[i].vy*ballen[i].mass)/ballen[j].mass;
 	
 	setColor(ballen[i].ball, "BLUE");	
@@ -512,7 +514,7 @@ void PrintDataArray()
 void initDataStructure()
 {
 	int masses[PARTICLES] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-	char* colors[PARTICLES] = {"BLUE", "RED", "CYAN", "ORANGE", "YELLOW", "GRAY", "PINK", "DARK_GRAY", "LIGHT_GRAY", "BLACK"};
+	char* colors[PARTICLES] = {"BLUE", "RED", "CYAN", "ORANGE", "BLACK", "GREY", "GREY", "GREY", "GREY", "GREY"};
 	
 	for(int i = 0; i < PARTICLES; i++)
 	{
