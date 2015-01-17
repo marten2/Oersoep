@@ -81,9 +81,9 @@ typedef struct node
 	decomp decompinfo;
 }node;
 
+// build a datastructure to keep itteration count and reaction in 
 typedef struct datablok{
-
-	int amount;
+	long moment;
 	struct datablok* next;
 }datablok;
 
@@ -91,31 +91,36 @@ typedef struct datablok{
 // Methods declarations and instance variables
 ////////////////////////////////////////////////////////////////////////////////
 
-void initBall(GWindow window, BALL ballen[], int T);
+// methods for running program
+void initBall(GWindow window, BALL ballen[]);
 void collision(BALL* ball1, BALL* ball2, double rand);
 bool Eact(BALL* ball1, BALL* ball2, int index, int index2); 
 void react(BALL* ball1, BALL* ball2, int index, int index2);
 bool decompose_time(int counter, int index, double random);
 void decompose(BALL ball[], int i);
 int getFreeSpot(BALL ballen[]);
+
+// setting up database for easy read data
 void initDataStructure();
 BALL DeepCopyBall(BALL input, BALL blueprint);
-void updateDataArray(int data[]);
-void PrintDataArray();
+
+// setting up data to read from program
+void updateDataArray(int i);
+void printDataArray();
 
 int hashfunction(char type)
 {
 	return type - 'A';
 }
-datablok* DataArray[10];
+datablok* DataArray[2];
 GWindow window;
 int T;
 node hashtable[10];
-
+long iterationCounter;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Functions
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 int main(void)
 {
@@ -126,7 +131,6 @@ int main(void)
 	for(int i = 0; i<PARTICLES; i++){
 		particles[i] = 0;
 	}
-	int iterationCounter = 0; 
 	
 	initDataStructure();
 	
@@ -134,7 +138,6 @@ int main(void)
 	printf("Temp:");
  	int* temp = malloc(sizeof(int));
 	scanf("%i", temp);
-	
 	T = *temp;
 	free(temp);
 	
@@ -146,7 +149,7 @@ int main(void)
     window = newGWindow(WIDTH, HEIGHT);
 
     // instantiate ball, centered in middle of window
-    initBall(window, ballen, T);
+    initBall(window, ballen);
 	
 	waitForClick();
 	int ballcount = 0;
@@ -159,10 +162,8 @@ int main(void)
     			int index = hashfunction(ballen[i].type);
     			
     			// count different kinds of particles present
-    			particles[index]++;
+
     			// count iterations
-    			
-    			ballcount++;
 				BALL* ball1 = &ballen[i];
 				if (hashtable[index].decompinfo.possible)
 				{
@@ -219,19 +220,11 @@ int main(void)
 				}
 			}
 		}
-/*		printf("balls: %i\n", ballcount);*/
-		ballcount = 0;
     	pause(10);
     	iterationCounter++;
-    	if (iterationCounter == 100){
-    		printf("update\n");
-    		iterationCounter = 0;	
-			updateDataArray(particles);
-			PrintDataArray();
-		}
-		// reset particle number 
-    	for (int j=0; j<PARTICLES; j++){
-    		particles[j] = 0;
+    	if (iterationCounter%100 == 0)
+    	{
+    		printDataArray();
     	}
     }
 
@@ -242,7 +235,7 @@ int main(void)
 /**
  * Instantiates ball in center of window.  Returns ball.
  */
-void initBall(GWindow window, BALL ballen[], int T)
+void initBall(GWindow window, BALL ballen[])
 {
 	srand48(time(NULL));
 	for(int i = 0; i < BALLS; i++)
@@ -348,7 +341,6 @@ bool Eact(BALL* ball1, BALL* ball2, int index, int index2)
 // make reaction between to balls, dependend on the type of reaction
 void react(BALL* ball1, BALL* ball2, int index, int index2)
 {
- 
 	int oldMass = ball1->mass;
 	// getting index for constuction by looking up product type
 	int NewIndex = hashfunction(hashtable[index].reactions[index2].product);
@@ -386,6 +378,10 @@ void react(BALL* ball1, BALL* ball2, int index, int index2)
 		ball2->vy = -ball2->vy;
 	}
 	addAt(window, ball2->ball, ballx, bally);
+	if (ball1->type == 'E')
+	{
+		updateDataArray(0); 
+	}
 }
 // check if the ball should decompose
 bool decompose_time(int counter, int index, double rand)
@@ -404,6 +400,7 @@ bool decompose_time(int counter, int index, double rand)
 // decompose the ball back to lower molecule form
 void decompose(BALL ballen[], int i)
 {
+	if (ballen[i].type == 'J') updateDataArray(1);
 	// get index for look up types products
 	int index = hashfunction(ballen[i].type);
 	
@@ -476,33 +473,28 @@ BALL DeepCopyBall(BALL input, BALL blueprint)
 ////////////////////////////////////////////////////////////////////////////////
 // Datastructure for information print to and read out
 ////////////////////////////////////////////////////////////////////////////////
-void updateDataArray(int data[])
-{
-	for( int i = 0; i < PARTICLES; i++)
-	{
-		datablok* new_blok = malloc(sizeof(datablok));
-		new_blok->next = DataArray[i];
-		new_blok->amount = data[i];
-		DataArray[i] = new_blok;
-		printf("  %i  ", new_blok->amount);
-	}
-}
 
-void PrintDataArray()
+void updateDataArray(int i)
 {
-	for( int i = 0; i < 0; i++)
+	datablok* new_block = malloc(sizeof(datablok));
+	new_block->next = DataArray[i];
+	new_block->moment = iterationCounter;
+	DataArray[i] = new_block;
+	
+}
+void printDataArray()
+{
+	for(int i = 0; i < 2; i++)
 	{
 		datablok* temp = DataArray[i];
-		printf("Particle[%i] :", i);
 		while(temp != NULL)
 		{
-			printf("  %i  ", temp->amount);
+			printf(" %ld ", temp->moment);
 			temp = temp->next;
 		}
 		printf("\n");
 	}
 }
-
 ////////////////////////////////////////////////////////////////////////////////
 // Datastructure and Database
 ////////////////////////////////////////////////////////////////////////////////
