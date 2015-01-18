@@ -107,6 +107,7 @@ BALL DeepCopyBall(BALL input, BALL blueprint);
 // setting up data to read from program
 void updateDataArray(int i);
 void printDataArray();
+void saveData();
 
 int hashfunction(char type)
 {
@@ -222,9 +223,10 @@ int main(void)
 		}
     	pause(10);
     	iterationCounter++;
-    	if (iterationCounter%100 == 0)
+    	if (iterationCounter%1000 == 0)
     	{
     		printDataArray();
+    		saveData();
     	}
     }
 
@@ -494,6 +496,21 @@ void printDataArray()
 		}
 		printf("\n");
 	}
+}
+void saveData()
+{
+	FILE* outfile = fopen("output.csv", "w");
+	for (int i = 0; i < 2; i++)
+	{
+		datablok* temp = DataArray[i];
+		while(temp != NULL)
+		{
+			fprintf(outfile, "%ld,", temp->moment);
+			temp = temp->next;
+		}
+		fprintf(outfile, "\n");
+	}
+	fclose(outfile);
 }
 ////////////////////////////////////////////////////////////////////////////////
 // Datastructure and Database
