@@ -98,7 +98,6 @@ bool Eact(BALL* ball1, BALL* ball2, int index, int index2);
 void react(BALL* ball1, BALL* ball2, int index, int index2);
 bool decompose_time(int counter, int index, double random);
 void decompose(BALL ball[], int i, double rand);
-void gotoGUI();
 
 // setting up database for easy read data
 void initDataStructure();
@@ -231,7 +230,8 @@ int main(int argc, char* argv[])
         {
         	if (getEventType(MouseClick) == MOUSE_CLICKED)
         	{
-        		gotoGUI();
+        		saveData();
+        		printDataArray();
         	}	
         }
         
@@ -455,25 +455,7 @@ BALL DeepCopyBall(BALL input, BALL blueprint)
 	input.exists = blueprint.exists;
 	return input;	
 }
-void gotoGUI()
-{
-	printf("\n");
-	printf("User interface \nWhat do you want to do?\n");
-	printf("Print data, press p\nOutput data, press o\nContinue, press anything else\n");
-	char input;
-	scanf("intput: %c", &input);
-	if (input == 'p') 
-	{
-		printDataArray();
-		gotoGUI();
-	}
-	else if (input == 'o') 
-	{
-		saveData();
-		gotoGUI();
-	}
-	printf("\n");
-}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Datastructure for information print to and read out
 ////////////////////////////////////////////////////////////////////////////////
