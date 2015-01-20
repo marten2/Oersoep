@@ -103,6 +103,7 @@ int getFreeSpot(BALL ballen[]);
 // setting up database for easy read data
 void initDataStructure();
 BALL DeepCopyBall(BALL input, BALL blueprint);
+void changeDecomp(int index, bool pos, int time, char type1, char type2);
 
 // setting up data to read from program
 void updateDataArray(int i);
@@ -556,14 +557,29 @@ void initDataStructure()
 		}
 	}
 	hashtable[0].decompinfo.possible = false;
-	hashtable[1].decompinfo.possible = true;
-	hashtable[1].decompinfo.time = 80;
-	hashtable[1].decompinfo.type1 = 'A';
-	hashtable[1].decompinfo.type2 = 'A';
 	
-	// valt uiteen in 2 template deeltjes
-	hashtable[9].decompinfo.possible = true;
-	hashtable[9].decompinfo.time = 5;
-	hashtable[9].decompinfo.type1 = 'E';
-	hashtable[9].decompinfo.type1 = 'E';
+	changeDecomp(1, true, 80, 'A', 'A');
+	changeDecomp(2, true, 220, 'A', 'A');
+	changeDecomp(3, true, 260, 'A', 'A');
+	changeDecomp(4, true, 1000, 'A', 'A');
+	changeDecomp(5, true, 2000, 'A', 'A');
+	changeDecomp(6, true, 2000, 'A', 'A');
+	changeDecomp(7, true, 2000, 'A', 'A');
+	changeDecomp(8, true, 2000, 'A', 'A'); 
+	changeDecomp(9, true, 5, 'E', 'E'); 	
 }
+
+void changeDecomp(int index, bool pos, int time, char type1, char type2){
+	hashtable[index].decompinfo.possible = pos;
+	hashtable[index].decompinfo.time = time;
+	hashtable[index].decompinfo.type1 = type1;
+	hashtable[index].decompinfo.type2 = type2; 	
+}
+
+
+
+
+
+
+
+
