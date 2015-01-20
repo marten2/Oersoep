@@ -544,6 +544,7 @@ void initDataStructure()
 		}
 	}
 	
+	////////////////
 	// Reactions
 		
 /*changeReaction(bool react, double Eact, int index1, int index2, char type, double chance)*/
@@ -557,7 +558,8 @@ void initDataStructure()
 	changeReaction(true, 1, 0, 6, 'H', 0.35);	
 	changeReaction(true, 1, 0, 7, 'I', 0.35);
 	changeReaction(true, 1, 0, 8, 'J', 0.35);		
-
+	
+	/////////////////
 	// Decompositions
 /*changeDecomp(int index, bool pos, int time, char type1, char type2)*/
 	hashtable[0].decompinfo.possible = false;
