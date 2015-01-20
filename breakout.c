@@ -530,7 +530,7 @@ void initDataStructure()
 	
 	// Reactions
 		
-/*void changeReaction(bool react, double Eact, int index1, int index2, char type, double chance)*/
+/*changeReaction(bool react, double Eact, int index1, int index2, char type, double chance)*/
 
 	changeReaction(true, 1, 0, 0, 'B', 0.35);
 	changeReaction(true, 1, 0, 1, 'C', 0.35);	
@@ -543,6 +543,7 @@ void initDataStructure()
 	changeReaction(true, 1, 0, 8, 'J', 0.35);		
 
 	// Decompositions
+/*changeDecomp(int index, bool pos, int time, char type1, char type2)*/
 	hashtable[0].decompinfo.possible = false;
 	
 	changeDecomp(1, true, 800, 'A', 'A');
