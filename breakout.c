@@ -121,14 +121,14 @@ GWindow window;
 int T;
 node hashtable[10];
 long iterationCounter;
-
+char test[20];
 ////////////////////////////////////////////////////////////////////////////////
 // Functions
 ///////////////////////////////////////////////////////////////////////////////
 
-int main(void)
+int main(int argc, char* argv[])
 {
-	
+	sprintf(test, "%s.csv", argv[1]);
 	// keep track of number of particles
 	int particles[PARTICLES];
 	// initialize values to 0
@@ -469,18 +469,21 @@ BALL DeepCopyBall(BALL input, BALL blueprint)
 }
 void gotoGUI()
 {
-	while(true)
-	{
-		printf("\n\n");
-		printf("User interface \nWhat do you to do?\n");
-		printf("Print data, press p\nOutput data, press o\nContinue, press c\n");
-		char *input = malloc(sizeof(char));
-		scanf("%c", input);
-		if (*input == 'p') printDataArray();
-		else if (*input == 'o') saveData();
-		else if (*input == 'c') return;
-		printf("\n\n");
-	}
+	printf("\n");
+	printf("User interface \nWhat do you want to do?\n");
+	printf("Print data, press p\nOutput data, press o\nContinue, press anything else\n");
+/*	string input = GetString();*/
+/*	if (input[0] == 'p') */
+/*	{*/
+/*		printDataArray();*/
+/*		gotoGUI();*/
+/*	}*/
+/*	else if (input[0] == 'o') */
+/*	{*/
+/*		saveData();*/
+/*		gotoGUI();*/
+/*	}*/
+/*	printf("\n");*/
 }
 ////////////////////////////////////////////////////////////////////////////////
 // Datastructure for information print to and read out
@@ -509,7 +512,7 @@ void printDataArray()
 }
 void saveData()
 {
-	FILE* outfile = fopen("output.csv", "w");
+	FILE* outfile = fopen(test, "w");
 	for (int i = 0; i < 2; i++)
 	{
 		datablok* temp = DataArray[i];
