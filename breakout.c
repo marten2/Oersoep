@@ -99,6 +99,7 @@ void react(BALL* ball1, BALL* ball2, int index, int index2);
 bool decompose_time(int counter, int index, double random);
 void decompose(BALL ball[], int i);
 int getFreeSpot(BALL ballen[]);
+void gotoGUI();
 
 // setting up database for easy read data
 void initDataStructure();
@@ -225,6 +226,16 @@ int main(void)
 		}
     	pause(10);
     	iterationCounter++;
+    	
+    	GEvent MouseClick = getNextEvent(MOUSE_CLICKED);
+        if (MouseClick != NULL)
+        {
+        	if (getEventType(MouseClick) == MOUSE_CLICKED)
+        	{
+        		gotoGUI();
+        	}	
+        }
+        
     	if (iterationCounter%1000 == 0)
     	{
     		printDataArray();
@@ -456,7 +467,21 @@ BALL DeepCopyBall(BALL input, BALL blueprint)
 	input.exists = blueprint.exists;
 	return input;	
 }
-
+void gotoGUI()
+{
+	while(true)
+	{
+		printf("\n\n");
+		printf("User interface \nWhat do you to do?\n");
+		printf("Print data, press p\nOutput data, press o\nContinue, press c\n");
+		char *input = malloc(sizeof(char));
+		scanf("%c", input);
+		if (*input == 'p') printDataArray();
+		else if (*input == 'o') saveData();
+		else if (*input == 'c') return;
+		printf("\n\n");
+	}
+}
 ////////////////////////////////////////////////////////////////////////////////
 // Datastructure for information print to and read out
 ////////////////////////////////////////////////////////////////////////////////
