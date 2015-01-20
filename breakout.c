@@ -99,6 +99,7 @@ void react(BALL* ball1, BALL* ball2, int index, int index2);
 bool decompose_time(int counter, int index, double random);
 void decompose(BALL ball[], int i);
 int getFreeSpot(BALL ballen[]);
+void gotoGUI();
 
 // setting up database for easy read data
 void initDataStructure();
@@ -224,6 +225,16 @@ int main(void)
 		}
     	pause(10);
     	iterationCounter++;
+    	
+    	GEvent MouseClick = getNextEvent(MOUSE_CLICKED);
+        if (MouseClick != NULL)
+        {
+        	if (getEventType(MouseClick) == MOUSE_CLICKED)
+        	{
+        		gotoGUI();
+        	}	
+        }
+        
     	if (iterationCounter%1000 == 0)
     	{
     		printDataArray();
@@ -414,36 +425,24 @@ void decompose(BALL ballen[], int i)
 	int ProductType1 = hashfunction(hashtable[index].decompinfo.type1); 
 	int ProductType2 = hashfunction(hashtable[index].decompinfo.type2);
 
-	double tempVx = ballen[i].vx;
-	double tempVy = ballen[i].vy;
-	
+	double oldVx = ballen[i].vx;
+	double oldVy = ballen[i].vy;
 	int oldMass = ballen[i].mass;
-	double Etot = 0.5 * oldMass * (tempVx*tempVx + tempVy*tempVy);
+	double Etot = 0.5 * oldMass * (oldVx*oldVx + oldVy*oldVy);
 	
 	ballen[i] = DeepCopyBall(ballen[i], *hashtable[ProductType1].blueprint);
 	ballen[j] = DeepCopyBall(ballen[j], *hashtable[ProductType2].blueprint);
 	
-/*	ballen[i].type = 'A';*/
-/*	ballen[j].type = 'A';*/
-/*	ballen[i].mass = 1;*/
-	ballen[i].vx = drand48() * tempVx;
+	ballen[i].vx = drand48() * oldVx;
 	ballen[i].vy = sqrt((Etot/ballen[i].mass) - ballen[i].vx * ballen[i].vx);
 	
-	// TODO uit de datastructure halen
-/*	ballen[j].mass = 1;*/
-	ballen[j].vx = (tempVx*oldMass - ballen[i].vx*ballen[i].mass)/ballen[j].mass;
-	ballen[j].vy = (tempVy*oldMass - ballen[i].vy*ballen[i].mass)/ballen[j].mass;
-	
-/*	setColor(ballen[i].ball, "BLUE");	*/
-/*	setColor(ballen[j].ball, "BLUE");*/
+	ballen[j].vx = (oldVx*oldMass - ballen[i].vx*ballen[i].mass)/ballen[j].mass;
+	ballen[j].vy = (oldVy*oldMass - ballen[i].vy*ballen[i].mass)/ballen[j].mass;
 	
 	double balliX = getX(ballen[i]);
 	double balliY = getY(ballen[i]);
 	
 	setLocation(ballen[j].ball, balliX + 2.3*RADIUS, balliY);
-/*	*/
-/*	setVisible(ballen[j].ball, true);*/
-/*	ballen[j].exists = true;*/
 }
 
 int getFreeSpot(BALL ballen[])
@@ -467,7 +466,21 @@ BALL DeepCopyBall(BALL input, BALL blueprint)
 	input.exists = blueprint.exists;
 	return input;	
 }
-
+void gotoGUI()
+{
+	while(true)
+	{
+		printf("\n\n");
+		printf("User interface \nWhat do you to do?\n");
+		printf("Print data, press p\nOutput data, press o\nContinue, press c\n");
+		char *input = malloc(sizeof(char));
+		scanf("%c", input);
+		if (*input == 'p') printDataArray();
+		else if (*input == 'o') saveData();
+		else if (*input == 'c') return;
+		printf("\n\n");
+	}
+}
 ////////////////////////////////////////////////////////////////////////////////
 // Datastructure for information print to and read out
 ////////////////////////////////////////////////////////////////////////////////
@@ -519,7 +532,7 @@ void saveData()
 void initDataStructure()
 {
 	int masses[PARTICLES] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-	char* colors[PARTICLES] = {"BLUE", "RED", "CYAN", "ORANGE", "BLACK", "LIGHT_GRAY", "LIGHT_GRAY", "LIGHT_GRAY", "LIGHT_GRAY", "LIGHT_GRAY"};
+	char* colors[PARTICLES] = {"BLUE", "RED", "CYAN", "ORANGE", "BLACK", "LIGHT_GRAY", "LIGHT_GRAY", "LIGHT_GRAY", "LIGHT_GRAY", "PINK"};
 	
 	for(int i = 0; i < PARTICLES; i++)
 	{
@@ -559,13 +572,13 @@ void initDataStructure()
 	hashtable[0].decompinfo.possible = false;
 	
 	changeDecomp(1, true, 80, 'A', 'A');
-	changeDecomp(2, true, 220, 'A', 'A');
-	changeDecomp(3, true, 260, 'A', 'A');
-	changeDecomp(4, true, 1000, 'A', 'A');
-	changeDecomp(5, true, 2000, 'A', 'A');
-	changeDecomp(6, true, 2000, 'A', 'A');
-	changeDecomp(7, true, 2000, 'A', 'A');
-	changeDecomp(8, true, 2000, 'A', 'A'); 
+	changeDecomp(2, true, 220, 'A', 'B');
+	changeDecomp(3, true, 260, 'A', 'C');
+	changeDecomp(4, true, 1000, 'A', 'D');
+	changeDecomp(5, true, 200, 'A', 'E');
+	changeDecomp(6, true, 200, 'A', 'F');
+	changeDecomp(7, true, 200, 'A', 'G');
+	changeDecomp(8, true, 200, 'A', 'H'); 
 	changeDecomp(9, true, 5, 'E', 'E'); 	
 }
 
