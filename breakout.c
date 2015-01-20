@@ -411,44 +411,39 @@ void decompose(BALL ballen[], int i)
 	
 	// get free spot to make ball and types of product balls
 	int j = getFreeSpot(ballen);
-/*	int ProductType1 = hashfunction(hashtable[index].decompinfo.type1); */
-/*	int ProductType2 = hashfunction(hashtable[index].decompinfo.type1);*/
+	int ProductType1 = hashfunction(hashtable[index].decompinfo.type1); 
+	int ProductType2 = hashfunction(hashtable[index].decompinfo.type2);
 
 	double tempVx = ballen[i].vx;
 	double tempVy = ballen[i].vy;
 	
 	int oldMass = ballen[i].mass;
-	
-	double impuls_x_in = ballen[i].vx * ballen[i].mass;
-	double impuls_y_in = ballen[i].vy * ballen[i].mass;
 	double Etot = 0.5 * oldMass * (tempVx*tempVx + tempVy*tempVy);
 	
-/*	ballen[i] = DeepCopyBall(ballen[i], *hashtable[ProductType1].blueprint);*/
-/*	ballen[j] = DeepCopyBall(ballen[i], *hashtable[ProductType2].blueprint);*/
-
-	hashtable[0].decompinfo.possible = false;
+	ballen[i] = DeepCopyBall(ballen[i], *hashtable[ProductType1].blueprint);
+	ballen[j] = DeepCopyBall(ballen[j], *hashtable[ProductType2].blueprint);
 	
-	ballen[i].type = 'A';
-	ballen[j].type = 'A';
-	ballen[i].mass = 1;
+/*	ballen[i].type = 'A';*/
+/*	ballen[j].type = 'A';*/
+/*	ballen[i].mass = 1;*/
 	ballen[i].vx = drand48() * tempVx;
 	ballen[i].vy = sqrt((Etot/ballen[i].mass) - ballen[i].vx * ballen[i].vx);
 	
 	// TODO uit de datastructure halen
-	ballen[j].mass = 1;
+/*	ballen[j].mass = 1;*/
 	ballen[j].vx = (tempVx*oldMass - ballen[i].vx*ballen[i].mass)/ballen[j].mass;
 	ballen[j].vy = (tempVy*oldMass - ballen[i].vy*ballen[i].mass)/ballen[j].mass;
 	
-	setColor(ballen[i].ball, "BLUE");	
-	setColor(ballen[j].ball, "BLUE");
+/*	setColor(ballen[i].ball, "BLUE");	*/
+/*	setColor(ballen[j].ball, "BLUE");*/
 	
 	double balliX = getX(ballen[i]);
 	double balliY = getY(ballen[i]);
 	
 	setLocation(ballen[j].ball, balliX + 2.3*RADIUS, balliY);
-	
-	setVisible(ballen[j].ball, true);
-	ballen[j].exists = true;
+/*	*/
+/*	setVisible(ballen[j].ball, true);*/
+/*	ballen[j].exists = true;*/
 }
 
 int getFreeSpot(BALL ballen[])
@@ -564,13 +559,13 @@ void initDataStructure()
 	hashtable[0].decompinfo.possible = false;
 	
 	changeDecomp(1, true, 80, 'A', 'A');
-	changeDecomp(2, true, 120, 'A', 'A');
-	changeDecomp(3, true, 160, 'A', 'A');
-	changeDecomp(4, true, 200, 'A', 'A');
-	changeDecomp(5, true, 1000, 'A', 'A');
-	changeDecomp(6, true, 200, 'A', 'A');
-	changeDecomp(7, true, 200, 'A', 'A');
-	changeDecomp(8, true, 200, 'A', 'A'); 
+	changeDecomp(2, true, 220, 'A', 'A');
+	changeDecomp(3, true, 260, 'A', 'A');
+	changeDecomp(4, true, 1000, 'A', 'A');
+	changeDecomp(5, true, 2000, 'A', 'A');
+	changeDecomp(6, true, 2000, 'A', 'A');
+	changeDecomp(7, true, 2000, 'A', 'A');
+	changeDecomp(8, true, 2000, 'A', 'A'); 
 	changeDecomp(9, true, 5, 'E', 'E'); 	
 }
 
@@ -578,7 +573,7 @@ void changeDecomp(int index, bool pos, int time, char type1, char type2){
 	hashtable[index].decompinfo.possible = pos;
 	hashtable[index].decompinfo.time = time;
 	hashtable[index].decompinfo.type1 = type1;
-	hashtable[index].decompinfo.type1 = type2; 	
+	hashtable[index].decompinfo.type2 = type2; 	
 }
 
 
