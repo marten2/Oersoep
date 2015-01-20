@@ -455,6 +455,7 @@ BALL DeepCopyBall(BALL input, BALL blueprint)
 	input.exists = blueprint.exists;
 	return input;	
 }
+
 void gotoGUI()
 {
 	printf("\n");
@@ -462,18 +463,19 @@ void gotoGUI()
 	printf("Print data, press p\nOutput data, press o\nContinue, press anything else\n");
 	char input;
 	scanf("intput: %c", &input);
-	if (input == 'p') 
-	{
-		printDataArray();
-		gotoGUI();
-	}
-	else if (input == 'o') 
-	{
-		saveData();
-		gotoGUI();
-	}
-	printf("\n");
+/*	if (input == 'p') */
+/*	{*/
+/*		printDataArray();*/
+/*		gotoGUI();*/
+/*	}*/
+/*	else if (input == 'o') */
+/*	{*/
+/*		saveData();*/
+/*		gotoGUI();*/
+/*	}*/
+/*	printf("\n");*/
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 // Datastructure for information print to and read out
 ////////////////////////////////////////////////////////////////////////////////
@@ -562,6 +564,7 @@ void initDataStructure()
 	
 	/////////////////
 	// Decompositions
+	
 /*changeDecomp(int index, bool pos, int time, char type1, char type2)*/
 	hashtable[0].decompinfo.possible = false;
 	
