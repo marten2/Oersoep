@@ -97,8 +97,7 @@ void collision(BALL* ball1, BALL* ball2, double rand);
 bool Eact(BALL* ball1, BALL* ball2, int index, int index2); 
 void react(BALL* ball1, BALL* ball2, int index, int index2);
 bool decompose_time(int counter, int index, double random);
-void decompose(BALL ball[], int i);
-int getFreeSpot(BALL ballen[]);
+void decompose(BALL ball[], int i, double rand);
 void gotoGUI();
 
 // setting up database for easy read data
@@ -175,7 +174,7 @@ int main(int argc, char* argv[])
 				}
 				if (decompose_time(ballen[i].counter, index, drand48()) && hashtable[index].decompinfo.possible)
 				{
-					decompose(ballen, i);
+					decompose(ballen, i, drand48());
 				}
 				move(ballen[i].ball, ballen[i].vx, ballen[i].vy);
 			
@@ -413,7 +412,7 @@ bool decompose_time(int counter, int index, double rand)
 	return false;
 }
 // decompose the ball back to lower molecule form
-void decompose(BALL ballen[], int i)
+void decompose(BALL ballen[], int i, double rand)
 {
 	if (ballen[i].type == 'J') updateDataArray(1);
 	// get index for look up types products
@@ -422,7 +421,7 @@ void decompose(BALL ballen[], int i)
 	srand48(time(NULL));
 	
 	// get free spot to make ball and types of product balls
-	int j = getFreeSpot(ballen);
+	int j = rand * BALLS;
 	int ProductType1 = hashfunction(hashtable[index].decompinfo.type1); 
 	int ProductType2 = hashfunction(hashtable[index].decompinfo.type2);
 
@@ -446,17 +445,6 @@ void decompose(BALL ballen[], int i)
 	setLocation(ballen[j].ball, balliX + 2.3*RADIUS, balliY);
 }
 
-int getFreeSpot(BALL ballen[])
-{
-	for (int i = 0; i < BALLS; i++)
-	{
-		if (ballen[i].type == 'A')
-		{
-			return i;
-		}
-	}
-	return 0;
-}
 BALL DeepCopyBall(BALL input, BALL blueprint)
 {
 	setColor(input.ball, blueprint.color);
