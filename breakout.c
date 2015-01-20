@@ -104,6 +104,7 @@ int getFreeSpot(BALL ballen[]);
 void initDataStructure();
 BALL DeepCopyBall(BALL input, BALL blueprint);
 void changeDecomp(int index, bool pos, int time, char type1, char type2);
+void changeReaction(bool react, double Eact, int index1, int index2, char type, double chance);
 
 // setting up data to read from program
 void updateDataArray(int i);
@@ -519,42 +520,47 @@ void initDataStructure()
 		hashtable[i].blueprint = new_blueprint;
 	}
 	
-	
-	for(int i = 0; i < PARTICLES-1; i++)
+	for(int i = 0; i < PARTICLES; i++)
 	{
-		for(int j = 0; j < PARTICLES-1; j++)
+		for(int j = 0; j < PARTICLES; j++)
 		{
-			if (i == 0 && j != 0)
-			{
-				hashtable[i].reactions[j].react = true;
-				hashtable[i].reactions[j].Eact = 1;
-				hashtable[i].reactions[j].product = i + j + 'A' + 1;
-				hashtable[i].reactions[j].chance = 0.35;
-			}
-			else if (j == 0)
-			{
-				hashtable[i].reactions[j].react = true;
-				hashtable[i].reactions[j].Eact = 1;
-				hashtable[i].reactions[j].product = i + j + 'A' + 1;
-				hashtable[i].reactions[j].chance = 0.35;
-			}
-			else
-			{
-				hashtable[i].reactions[j].react = false;
-			}
+			hashtable[i].reactions[j].react = false;
 		}
 	}
+	
+	// Reactions
+		
+/*void changeReaction(bool react, double Eact, int index1, int index2, char type, double chance)*/
+
+	changeReaction(true, 1, 0, 0, 'B', 0.35);
+	changeReaction(true, 1, 0, 1, 'C', 0.35);	
+	changeReaction(true, 1, 0, 2, 'D', 0.35);		
+	changeReaction(true, 1, 0, 3, 'E', 0.35);	
+	changeReaction(true, 1, 0, 4, 'F', 0.35);	
+	changeReaction(true, 1, 0, 5, 'G', 0.35);	
+	changeReaction(true, 1, 0, 6, 'H', 0.35);	
+	changeReaction(true, 1, 0, 7, 'I', 0.35);
+	changeReaction(true, 1, 0, 8, 'J', 0.35);		
+
+	// Decompositions
 	hashtable[0].decompinfo.possible = false;
 	
-	changeDecomp(1, true, 80, 'A', 'A');
-	changeDecomp(2, true, 220, 'A', 'B');
-	changeDecomp(3, true, 260, 'A', 'C');
-	changeDecomp(4, true, 1000, 'A', 'D');
-	changeDecomp(5, true, 200, 'A', 'E');
-	changeDecomp(6, true, 200, 'A', 'F');
-	changeDecomp(7, true, 200, 'A', 'G');
-	changeDecomp(8, true, 200, 'A', 'H'); 
+	changeDecomp(1, true, 800, 'A', 'A');
+	changeDecomp(2, true, 2200, 'A', 'B');
+	changeDecomp(3, true, 2600, 'A', 'C');
+	changeDecomp(4, true, 10000, 'A', 'D');
+	changeDecomp(5, true, 2000, 'A', 'E');
+	changeDecomp(6, true, 2000, 'A', 'F');
+	changeDecomp(7, true, 2000, 'A', 'G');
+	changeDecomp(8, true, 2000, 'A', 'H'); 
 	changeDecomp(9, true, 5, 'E', 'E'); 	
+}
+
+void changeReaction(bool react, double Eact, int index1, int index2, char type, double chance){
+	hashtable[index1].reactions[index2].react = react;
+	hashtable[index1].reactions[index2].Eact = Eact;
+	hashtable[index1].reactions[index2].product = type;
+	hashtable[index1].reactions[index2].chance = chance;	
 }
 
 void changeDecomp(int index, bool pos, int time, char type1, char type2){
