@@ -460,18 +460,19 @@ void gotoGUI()
 	printf("\n");
 	printf("User interface \nWhat do you want to do?\n");
 	printf("Print data, press p\nOutput data, press o\nContinue, press anything else\n");
-/*	string input = GetString();*/
-/*	if (input[0] == 'p') */
-/*	{*/
-/*		printDataArray();*/
-/*		gotoGUI();*/
-/*	}*/
-/*	else if (input[0] == 'o') */
-/*	{*/
-/*		saveData();*/
-/*		gotoGUI();*/
-/*	}*/
-/*	printf("\n");*/
+	char input;
+	scanf("intput: %c", &input);
+	if (input == 'p') 
+	{
+		printDataArray();
+		gotoGUI();
+	}
+	else if (input == 'o') 
+	{
+		saveData();
+		gotoGUI();
+	}
+	printf("\n");
 }
 ////////////////////////////////////////////////////////////////////////////////
 // Datastructure for information print to and read out
