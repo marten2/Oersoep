@@ -536,16 +536,16 @@ void initDataStructure()
 		
 /*changeReaction(bool react, double Eact, int index1, int index2, char type, double chance)*/
 
-	changeReaction(true, 1, 0, 0, 'B', 0.45);
-	changeReaction(true, 1, 0, 1, 'C', 0.40);	
-	changeReaction(true, 1, 0, 2, 'D', 0.35);		
-	changeReaction(true, 1, 0, 3, 'E', 0.30);
-		
+	changeReaction(true, 1.5, 0, 0, 'B', 0.40);
+	changeReaction(true, 1.6, 0, 1, 'C', 0.40);	
+	changeReaction(true, 1.7, 0, 2, 'D', 0.40);		
+	changeReaction(true, 1.8, 0, 3, 'E', 0.40);
+	//template ^	
 	changeReaction(true, 1, 0, 4, 'F', 0.70);	
-	changeReaction(true, 1, 0, 5, 'G', 0.65);	
-	changeReaction(true, 1, 0, 6, 'H', 0.60);	
-	changeReaction(true, 1, 0, 7, 'I', 0.55);
-	changeReaction(true, 1, 0, 8, 'J', 0.50);		
+	changeReaction(true, 0.9, 0, 5, 'G', 0.65);	
+	changeReaction(true, 0.8, 0, 6, 'H', 0.60);	
+	changeReaction(true, 0.7, 0, 7, 'I', 0.55);
+	changeReaction(true, 0.6, 0, 8, 'J', 0.50);		
 	
 	/////////////////
 	// Decompositions
