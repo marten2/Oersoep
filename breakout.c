@@ -222,7 +222,7 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
-    	pause(10);
+    	pause(1);
     	iterationCounter++;
     	
     	GEvent MouseClick = getNextEvent(MOUSE_CLICKED);
