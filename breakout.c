@@ -239,6 +239,9 @@ int main(int argc, char* argv[])
     	{
     		printDataArray();
     		saveData();
+    		if (iterationCounter >= 20000){
+    			break;
+    		}
     	}
     }
 
@@ -403,7 +406,7 @@ bool decompose_time(int counter, int index, double rand)
 	int time = hashtable[index].decompinfo.time;
 	
 	// get chance on decomposition 
-	double chance = counter * rand;
+	double chance = T/2.0 * counter * rand;
 	 
 	// decompose depend on type and chance
 	if (hashtable[index].decompinfo.possible && chance > time) return true;
@@ -533,15 +536,16 @@ void initDataStructure()
 		
 /*changeReaction(bool react, double Eact, int index1, int index2, char type, double chance)*/
 
-	changeReaction(true, 1, 0, 0, 'B', 0.35);
-	changeReaction(true, 1, 0, 1, 'C', 0.35);	
+	changeReaction(true, 1, 0, 0, 'B', 0.45);
+	changeReaction(true, 1, 0, 1, 'C', 0.40);	
 	changeReaction(true, 1, 0, 2, 'D', 0.35);		
-	changeReaction(true, 1, 0, 3, 'E', 0.35);	
-	changeReaction(true, 1, 0, 4, 'F', 0.35);	
-	changeReaction(true, 1, 0, 5, 'G', 0.35);	
-	changeReaction(true, 1, 0, 6, 'H', 0.35);	
-	changeReaction(true, 1, 0, 7, 'I', 0.35);
-	changeReaction(true, 1, 0, 8, 'J', 0.35);		
+	changeReaction(true, 1, 0, 3, 'E', 0.30);
+		
+	changeReaction(true, 1, 0, 4, 'F', 0.70);	
+	changeReaction(true, 1, 0, 5, 'G', 0.65);	
+	changeReaction(true, 1, 0, 6, 'H', 0.60);	
+	changeReaction(true, 1, 0, 7, 'I', 0.55);
+	changeReaction(true, 1, 0, 8, 'J', 0.50);		
 	
 	/////////////////
 	// Decompositions
@@ -549,15 +553,16 @@ void initDataStructure()
 /*changeDecomp(int index, bool pos, int time, char type1, char type2)*/
 	hashtable[0].decompinfo.possible = false;
 	
-	changeDecomp(1, true, 800, 'A', 'A');
-	changeDecomp(2, true, 2200, 'A', 'B');
-	changeDecomp(3, true, 2600, 'A', 'C');
-	changeDecomp(4, true, 10000, 'A', 'D');
-	changeDecomp(5, true, 2000, 'A', 'E');
-	changeDecomp(6, true, 2000, 'A', 'F');
-	changeDecomp(7, true, 2000, 'A', 'G');
-	changeDecomp(8, true, 2000, 'A', 'H'); 
-	changeDecomp(9, true, 5, 'E', 'E'); 	
+	changeDecomp(1, true, 500, 'A', 'A');
+	changeDecomp(2, true, 600, 'A', 'B');
+	changeDecomp(3, true, 700, 'A', 'C');
+	changeDecomp(4, true, 1000, 'A', 'D');
+	//template ^
+	changeDecomp(5, true, 100, 'A', 'E');
+	changeDecomp(6, true, 200, 'A', 'F');
+	changeDecomp(7, true, 300, 'A', 'G');
+	changeDecomp(8, true, 400, 'A', 'H'); 
+	changeDecomp(9, true, 20, 'E', 'E'); 	
 }
 
 void changeReaction(bool react, double Eact, int index1, int index2, char type, double chance){
@@ -573,11 +578,3 @@ void changeDecomp(int index, bool pos, int time, char type1, char type2){
 	hashtable[index].decompinfo.type1 = type1;
 	hashtable[index].decompinfo.type2 = type2; 	
 }
-
-
-
-
-
-
-
-
