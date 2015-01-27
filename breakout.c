@@ -119,14 +119,14 @@ GWindow window;
 int T;
 node hashtable[10];
 long iterationCounter;
-char test[20];
+char test[40];
 ////////////////////////////////////////////////////////////////////////////////
 // Functions
 ///////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char* argv[])
 {
-	sprintf(test, "%s.csv", argv[1]);
+	sprintf(test, "/home/jharvard/Dropbox/Testdata Thema 3/%s.csv", argv[1]);
 	// keep track of number of particles
 	int particles[PARTICLES];
 	// initialize values to 0
@@ -222,7 +222,7 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
-    	pause(10);
+    	pause(1);
     	iterationCounter++;
     	
     	GEvent MouseClick = getNextEvent(MOUSE_CLICKED);
